@@ -1,4 +1,4 @@
-name: Deploy to FTP
+name: Deploy to cPanel
 
 on:
   push:
@@ -9,18 +9,18 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Pull latest code on cPanel
+        run: |
+          curl -s -X POST \
+            "https://adamdukeugc.com:2083/execute/VersionControl/update" \
+            -u "dukesbread:${{ secrets.CPANEL_PASSWORD }}" \
+            --data "repository_root=/home2/dukesbread/adam-portfolio-repo" \
+            -k
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: adamdukeugc.com
-          username: claude
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./www/
-          server-dir: /
-          exclude: |
-            **/.ftpquota
-            **/.well-known/**
-            **/public_html/**
-            **/videos/**
+      - name: Deploy to public_html
+        run: |
+          curl -s -X POST \
+            "https://adamdukeugc.com:2083/execute/VersionControlDeployment/create" \
+            -u "dukesbread:${{ secrets.CPANEL_PASSWORD }}" \
+            --data "repository_root=/home2/dukesbread/adam-portfolio-repo" \
+            -k
