@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adam Duke — UGC Creator</title>
+  <meta name="description" content="UGC video creator for brands that sell to real people. Tech, home, lifestyle. Charlotte, NC." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --border: #242424;
+      --text: #f0f0f0;
+      --muted: #888;
+      --accent: #e8e8e8;
+      --highlight: #fff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      background: rgba(14,14,14,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--highlight);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-socials {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-left: 32px;
+      padding-left: 32px;
+      border-left: 1px solid var(--border);
+    }
+    .nav-socials a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+    .nav-socials a:hover { color: var(--text); }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 48px;
+      max-width: 1600px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to right,
+        #0e0e0e 22%,
+        rgba(14,14,14,0.88) 42%,
+        rgba(14,14,14,0.35) 62%,
+        transparent 80%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
+    }
+    .hero-photo {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 65%;
+      height: 100%;
+    }
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0.92;
+    }
+    .hero-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 24px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    }
+    h1 {
+      font-size: clamp(40px, 6vw, 70px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+    }
+    h1 em {
+      font-style: normal;
+      color: rgba(255,255,255,0.6);
+    }
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 300;
+      color: #fff;
+      max-width: 580px;
+      margin-bottom: 16px;
+      line-height: 1.7;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    }
+    .hero-differentiator {
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      max-width: 520px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+      border-left: 2px solid rgba(255,255,255,0.3);
+      padding-left: 16px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    }
+    .hero-differentiator strong { color: #fff; }
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--highlight);
+      color: #0e0e0e;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: opacity 0.2s;
+      margin-right: 16px;
+    }
+    .hero-cta:hover { opacity: 0.85; }
+    .hero-cta-secondary {
+      font-size: 14px;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .hero-cta-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+    .divider { width: 100%; height: 1px; background: var(--border); }
+
+    /* SECTIONS */
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+
+    /* ABOUT */
+    #about .section-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .about-label, .work-label, .services-label, .contact-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--highlight);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    .about-body p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 18px;
+    }
+    .about-body p strong { color: var(--text); font-weight: 500; }
+    .about-stats { display: flex; flex-direction: column; gap: 28px; padding-top: 8px; }
+    .stat {
+      border-left: 2px solid var(--border);
+      padding-left: 20px;
+    }
+    .stat-number {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--highlight);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 13px; color: var(--muted); }
+
+    /* WORK */
+    #work .section-inner { }
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+    .work-note { font-size: 13px; color: #555; max-width: 280px; line-height: 1.6; text-align: right; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* VIDEO CARD */
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .video-card:hover { border-color: #3a3a3a; transform: translateY(-2px); }
+    .video-wrap {
+      position: relative;
+      aspect-ratio: 9/16;
+      background: #111;
+      overflow: hidden;
+    }
+    .video-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .video-wrap video:fullscreen {
+      object-fit: contain;
+      background: #000;
+    }
+    .video-wrap video:-webkit-full-screen {
+      object-fit: contain;
+      background: #000;
+    }
+    .video-wrap video:-moz-full-screen {
+      object-fit: contain;
+      background: #000;
+    }
+    /* custom play button overlay */
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .video-overlay.hidden { opacity: 0; pointer-events: none; }
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s;
+    }
+    .play-btn:hover { background: rgba(255,255,255,0.22); }
+    .play-btn svg { margin-left: 4px; }
+
+    .video-meta {
+      padding: 16px 18px;
+      border-top: 1px solid var(--border);
+    }
+    .video-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .video-title { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
+    .video-type { font-size: 12px; color: #888; }
+
+    /* SERVICES */
+    #services { background: var(--surface); }
+    #services .section-inner { }
+    .services-top { margin-bottom: 48px; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .service-item { background: var(--surface); padding: 32px 28px; }
+    .service-name { font-size: 15px; font-weight: 600; color: var(--highlight); margin-bottom: 10px; }
+    .service-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 20px; }
+    .service-price { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; }
+    .service-price span { font-size: 13px; font-weight: 400; color: var(--muted); }
+    .services-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .services-detail-item { }
+    .services-detail-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #444;
+      margin-bottom: 6px;
+    }
+    .services-detail-value { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* CONTACT */
+    #contact .section-inner {
+      text-align: center;
+      max-width: 640px;
+    }
+    #contact h2 { margin-bottom: 16px; }
+    .contact-sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+    .contact-email {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--highlight);
+      text-decoration: none;
+      border-bottom: 1px solid #333;
+      padding-bottom: 4px;
+      transition: border-color 0.2s;
+    }
+    .contact-email:hover { border-color: var(--muted); }
+    .contact-turnaround {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #3a3a3a;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      #hero { padding-top: 120px; }
+      .hero-photo { display: none; }
+      #hero::after { display: none; }
+    }
+    @media (max-width: 900px) {
+      #about .section-inner { grid-template-columns: 1fr; gap: 48px; }
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 1200px) and (min-width: 901px) {
+      .video-grid { grid-template-columns: repeat(4, 1fr); }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-details { grid-template-columns: 1fr; }
+      .work-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .work-note { text-align: left; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      #hero { padding: 120px 20px 60px; }
+      .section-inner { padding: 72px 20px; }
+      .video-grid { grid-template-columns: 1fr; max-width: 340px; }
+      footer { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Adam Duke</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-socials">
+      <a href="https://www.tiktok.com/@adamdukeugc" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.instagram.com/adamdukeugc" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-inner">
+      <p class="hero-label">UGC Creator &mdash; Charlotte, NC</p>
+      <h1>42. Antisocial.<br /><em>Your best ad.</em></h1>
+      <p class="hero-sub">I make UGC video ads for brands that sell to people with jobs, mortgages, and no patience for hype.</p>
+      <p class="hero-differentiator">
+        Most creators are 22 and over-the-top enthusiastic. I'm 42, I've run businesses for over a decade, and I genuinely don't care about going viral.<br>
+        <strong>That's exactly why brands targeting real adults hire me.</strong>
+      </p>
+      <a href="#contact" class="hero-cta">Work with me</a>
+      <a href="#work" class="hero-cta-secondary">See the work</a>
+    </div>
+    <div class="hero-photo">
+      <img src="hero-adam.png" alt="Adam Duke" />
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="section-inner">
+      <div class="work-header">
+        <div>
+          <p class="work-label">Work</p>
+          <h2>Spec &amp; brand videos.</h2>
+        </div>
+        <p class="work-note">All videos produced independently. No scripts from brands, no direction, no second takes coached by an agency.</p>
+      </div>
+
+      <div class="video-grid">
+
+        <!-- LEILO -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/Leilo1 - music and captions.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Leilo</p>
+            <p class="video-title">Kava Beverage</p>
+            <p class="video-type">B-roll &mdash; music + captions</p>
+          </div>
+        </div>
+
+        <!-- 3: TRUEBITE -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/truebite.mp4" poster="videos/poster-truebite.jpg" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">TrueBite / IQ Bar</p>
+            <p class="video-title">Protein Bar</p>
+            <p class="video-type">Talking head &mdash; honest review</p>
+          </div>
+        </div>
+
+        <!-- 11: ZEUS BEARD -->
+        <!-- 2: PARALLEL 1997 -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/parallel-1997.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Parallel 1997</p>
+            <p class="video-title">Men's Fragrance Oil</p>
+            <p class="video-type">Talking head &mdash; men's grooming</p>
+          </div>
+        </div>
+
+        <!-- 3: ZEUS WEEK2DAY3 -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/zeus-week2day3.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Zeus Beard</p>
+            <p class="video-title">Men's Grooming</p>
+            <p class="video-type">Talking head &mdash; brand series</p>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/zeus-beard.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Zeus Beard</p>
+            <p class="video-title">Men's Grooming</p>
+            <p class="video-type">Talking head &mdash; brand series</p>
+          </div>
+        </div>
+
+        <!-- 9: AWAKEN DAY 4 -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/awaken-day4.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Awaken Recovery</p>
+            <p class="video-title">Addiction Recovery App</p>
+            <p class="video-type">B-roll &mdash; text overlay + music</p>
+          </div>
+        </div>
+
+        <!-- 7: PREWORKOUT -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/preworkout.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Kaged Muscle</p>
+            <p class="video-title">Pre-Workout</p>
+            <p class="video-type">Talking head &mdash; fitness</p>
+          </div>
+        </div>
+
+        <!-- 2: MAGNESIUM -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/magnesium.mp4" poster="videos/poster-magnesium.jpg" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Magnesium Supplement</p>
+            <p class="video-title">Health / Wellness</p>
+            <p class="video-type">Talking head &mdash; skeptic-to-believer</p>
+          </div>
+        </div>
+
+        <!-- 8: REMIMB -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/remimb.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Remimb</p>
+            <p class="video-title">Smart Keyring</p>
+            <p class="video-type">Talking head &mdash; tech gadget</p>
+          </div>
+        </div>
+
+        <!-- 1: BEATS -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/beats.mp4" poster="videos/poster-beats.jpg" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Beats by Dre</p>
+            <p class="video-title">Headphones</p>
+            <p class="video-type">Talking head &mdash; problem/solution</p>
+          </div>
+        </div>
+
+        <!-- 6: JETBACK -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/jetback.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">JetBack</p>
+            <p class="video-title">Flight Price Savings App</p>
+            <p class="video-type">Talking head &mdash; travel/app</p>
+          </div>
+        </div>
+
+        <!-- 10: AWAKEN DAY 5 -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/awaken-day5.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Awaken Recovery</p>
+            <p class="video-title">Addiction Recovery App</p>
+            <p class="video-type">B-roll &mdash; text overlay + music</p>
+          </div>
+        </div>
+
+        <!-- 5: BEARD OIL -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/beard-oil.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Coastal 980</p>
+            <p class="video-title">Beard Oil</p>
+            <p class="video-type">Talking head &mdash; men's grooming</p>
+          </div>
+        </div>
+
+        <!-- 4: ROBOT MOWER -->
+        <div class="video-card">
+          <div class="video-wrap">
+            <video src="videos/robot-mower.mp4" preload="none" loading="lazy" playsinline></video>
+            <div class="video-overlay" onclick="playVideo(this)">
+              <div class="play-btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="video-meta">
+            <p class="video-brand">Ecovacs</p>
+            <p class="video-title">Robot Lawn Mower</p>
+            <p class="video-type">Talking head &mdash; demo + lifestyle</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-body">
+        <p class="about-label">About</p>
+        <h2>Not your typical creator.</h2>
+        <p>I'm 42, married, and I own two food businesses in Charlotte. I came to UGC from the opposite direction most people do: not because I wanted followers, but because I needed a smarter income stream that didn't require me to be somewhere every day.</p>
+        <p>My background is in running actual businesses for 16 years, not building audiences. I know what a real buying decision looks like. I know what it sounds like when someone's actually convinced, not performing convincement.</p>
+        <p>If you're selling <strong>tech, home goods, health products, or anything else to adults who research before they buy</strong>, I'm the guy who sounds like your customer instead of someone who wants to be famous.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-number">42</div>
+          <div class="stat-label">Years old. The demographic most brands can't reach.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">16</div>
+          <div class="stat-label">Years owning and operating real businesses.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">Tech</div>
+          <div class="stat-label">Primary niche. Gadgets, home, health, lifestyle.</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">5&ndash;7</div>
+          <div class="stat-label">Business day turnaround on most projects.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-inner">
+      <div class="services-top">
+        <p class="services-label">Services &amp; Rates</p>
+        <h2>Straightforward pricing.</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-item">
+          <p class="service-name">Single Video</p>
+          <p class="service-desc">One polished UGC video. Hook, demo, CTA. Vertical 9:16 format, captioned and raw both delivered.</p>
+          <p class="service-price">$200 <span>/ video</span></p>
+        </div>
+        <div class="service-item">
+          <p class="service-name">3-Pack</p>
+          <p class="service-desc">Three videos, three different hooks and angles. Same product, more creative options for ad testing.</p>
+          <p class="service-price">$500 <span>/ 3 videos</span></p>
+        </div>
+        <div class="service-item">
+          <p class="service-name">Custom</p>
+          <p class="service-desc">Longer campaigns, extended usage rights, multiple products, or recurring work. Let's figure it out.</p>
+          <p class="service-price">Custom <span>/ reach out</span></p>
+        </div>
+      </div>
+      <div class="services-details">
+        <div class="services-detail-item">
+          <p class="services-detail-label">Deliverables</p>
+          <p class="services-detail-value">Raw file + captioned version. Commercial usage rights included. Revisions included.</p>
+        </div>
+        <div class="services-detail-item">
+          <p class="services-detail-label">Turnaround</p>
+          <p class="services-detail-value">5&ndash;7 business days from brief approval. Rush available on request.</p>
+        </div>
+        <div class="services-detail-item">
+          <p class="services-detail-label">Shipping</p>
+          <p class="services-detail-value">Products shipped to Charlotte, NC. I handle everything from there.</p>
+        </div>
+        <div class="services-detail-item">
+          <p class="services-detail-label">Format</p>
+          <p class="services-detail-value">Vertical 9:16, TikTok/Reels/Shorts-ready. Under 60 seconds unless specified.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <p class="contact-label">Contact</p>
+      <h2>Let's make something real.</h2>
+      <p class="contact-sub">Send me the brief and tell me what you're selling and who you're selling it to. I'll get back to you within 24 hours.</p>
+      <a href="mailto:adamdukeugc@gmail.com" class="contact-email">adamdukeugc@gmail.com</a>
+      <p class="contact-turnaround">Response within 24 hours. Turnaround 5&ndash;7 business days.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Adam Duke UGC &copy; 2026 &mdash; Charlotte, NC</span>
+    <span>
+      <a href="https://www.tiktok.com/@adamdukeugc" target="_blank" rel="noopener" style="color:#444;text-decoration:none;margin-right:16px;">TikTok</a>
+      <a href="https://www.instagram.com/adamdukeugc" target="_blank" rel="noopener" style="color:#444;text-decoration:none;">Instagram</a>
+    </span>
+  </footer>
+
+  <script>
+    // Lazy load videos only when they enter the viewport
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var video = entry.target;
+            if (video.preload === 'none') {
+              video.preload = 'metadata';
+            }
+            observer.unobserve(video);
+          }
+        });
+      }, { rootMargin: '200px' });
+      document.querySelectorAll('video').forEach(function(v) { observer.observe(v); });
+    }
+
+    function playVideo(overlay) {
+      var wrap = overlay.parentElement;
+      var video = wrap.querySelector('video');
+      // Force load if not yet loaded
+      if (video.preload === 'none') {
+        video.preload = 'auto';
+        video.load();
+      }
+      overlay.classList.add('hidden');
+      video.controls = true;
+      video.play();
+      video.addEventListener('pause', function() {
+        overlay.classList.remove('hidden');
+      }, { once: false });
+      video.addEventListener('ended', function() {
+        overlay.classList.remove('hidden');
+        video.controls = false;
+      });
+    }
+  </script>
+
+</body>
+</html>

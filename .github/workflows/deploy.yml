@@ -1,0 +1,26 @@
+name: Deploy to FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: adamdukeugc.com
+          username: claude
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./www/
+          server-dir: /
+          exclude: |
+            **/.ftpquota
+            **/.well-known/**
+            **/public_html/**
+            **/videos/**

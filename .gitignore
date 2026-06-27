@@ -1,0 +1,11 @@
+# Large media files (deployed separately)
+www/videos/
+
+# FTP server files
+www/.ftpquota
+www/.well-known/
+www/public_html/
+
+# System files
+Thumbs.db
+.DS_Store
