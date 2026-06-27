@@ -1,5 +1,4 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/dukesbread/public_html
-    - /bin/cp -r $PWD/www/. $DEPLOYPATH/
+    - /bin/cp -r www/. /home2/dukesbread/public_html/
