@@ -20,6 +20,7 @@
       --muted-dim: #7a7a7a;  /* 4.5:1 on --bg — minimum for normal-size text */
       --accent: #e8e8e8;
       --highlight: #fff;
+      --amber: #c8813a;      /* brand accent — dark text on amber: 6.2:1 contrast */
     }
 
     html { scroll-behavior: smooth; }
@@ -129,10 +130,39 @@
     }
     .mobile-nav a:hover { color: var(--highlight); }
 
+    /* HERO ENTRANCE ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroPhotoReveal {
+      from { opacity: 0; transform: scale(1.03); }
+      to   { opacity: 0.92; transform: scale(1); }
+    }
+
+    .hero-label          { animation: fadeUp 0.55s ease-out both; animation-delay: 0.1s; }
+    #hero h1             { animation: fadeUp 0.65s ease-out both; animation-delay: 0.25s; }
+    .hero-sub            { animation: fadeUp 0.55s ease-out both; animation-delay: 0.42s; }
+    .hero-differentiator { animation: fadeUp 0.55s ease-out both; animation-delay: 0.56s; }
+    .hero-actions        { animation: fadeUp 0.55s ease-out both; animation-delay: 0.7s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-label, #hero h1, .hero-sub, .hero-differentiator, .hero-actions {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .hero-photo img {
+        animation: none !important;
+        opacity: 0.92 !important;
+        transform: translateY(-50%) !important;
+      }
+    }
+
     /* HERO */
     #hero {
       position: relative;
-      min-height: 100vh;
+      min-height: min(100vh, 860px);
       display: flex;
       align-items: center;
       padding: 80px 48px;
@@ -146,10 +176,10 @@
       inset: 0;
       background: linear-gradient(
         to right,
-        var(--bg) 22%,
-        color-mix(in srgb, var(--bg) 88%, transparent) 42%,
-        color-mix(in srgb, var(--bg) 35%, transparent) 62%,
-        transparent 80%
+        var(--bg) 30%,
+        color-mix(in srgb, var(--bg) 75%, transparent) 48%,
+        color-mix(in srgb, var(--bg) 20%, transparent) 68%,
+        transparent 85%
       );
       pointer-events: none;
       z-index: 1;
@@ -161,17 +191,22 @@
     }
     .hero-photo {
       position: absolute;
+      left: 0;
       right: 0;
-      top: 0;
-      width: 65%;
-      height: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      height: 78vh;
+      max-height: 720px;
     }
     .hero-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: top center;
-      opacity: 0.92;
+      object-position: right top;
+      opacity: 0;
+      animation: heroPhotoReveal 1.1s ease-out both;
+      animation-delay: 0.05s;
     }
     .hero-label {
       font-size: 12px;
@@ -194,7 +229,7 @@
     }
     h1 em {
       font-style: normal;
-      color: rgba(255,255,255,0.6);
+      color: var(--amber);
     }
     .hero-sub {
       font-size: 18px;
@@ -214,10 +249,11 @@
       text-shadow: 0 1px 6px rgba(0,0,0,0.8);
     }
     .hero-differentiator strong { color: #fff; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 0; }
     .hero-cta {
       display: inline-block;
       padding: 14px 32px;
-      background: var(--highlight);
+      background: var(--amber);
       color: #0e0e0e;
       font-size: 14px;
       font-weight: 600;
@@ -225,9 +261,9 @@
       text-decoration: none;
       border-radius: 4px;
       transition: opacity 0.2s;
-      margin-right: 16px;
+      margin-right: 20px;
     }
-    .hero-cta:hover { opacity: 0.85; }
+    .hero-cta:hover { opacity: 0.88; }
     .hero-cta-secondary {
       font-size: 14px;
       color: var(--muted);
@@ -284,6 +320,16 @@
     }
     .work-note { font-size: 13px; color: var(--muted-dim); max-width: 280px; line-height: 1.6; text-align: right; }
 
+    /* FEATURED VIDEOS — 2 hero cards at square crop for visual weight */
+    .video-featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    /* featured cards inherit 9/16 from .video-wrap — larger size is the distinction */
+
+    /* REGULAR VIDEO GRID */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -408,19 +454,45 @@
       line-height: 1.7;
       text-wrap: pretty;
     }
-    .contact-email {
+    .contact-brief {
+      list-style: none;
+      text-align: left;
       display: inline-block;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--highlight);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 4px;
-      transition: border-color 0.2s;
+      margin-bottom: 44px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      min-width: 320px;
     }
-    .contact-email:hover { border-color: var(--muted); }
+    .contact-brief li {
+      font-size: 14px;
+      color: var(--muted);
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+    .contact-brief li:last-child { border-bottom: none; }
+    .contact-brief li::before {
+      content: '\2014';
+      color: var(--amber);
+      margin-right: 10px;
+      font-weight: 600;
+    }
+    .contact-cta {
+      display: inline-block;
+      padding: 15px 40px;
+      background: var(--amber);
+      color: #0e0e0e;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: opacity 0.2s;
+    }
+    .contact-cta:hover { opacity: 0.88; }
     .contact-turnaround {
-      margin-top: 20px;
+      margin-top: 24px;
       font-size: 13px;
       color: var(--muted-dim);
     }
@@ -459,14 +531,21 @@
         position: relative;
         right: auto;
         top: auto;
+        transform: none;
         width: calc(100% + 96px);
         margin-left: -48px;
         height: 340px;
         margin-top: 48px;
       }
+      .hero-photo img {
+        animation: none !important;
+        opacity: 0.92 !important;
+        transform: none !important;
+      }
     }
     @media (max-width: 900px) {
       #about .section-inner { grid-template-columns: 1fr; gap: 48px; }
+      .video-featured { grid-template-columns: 1fr; }
       .video-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 1200px) and (min-width: 901px) {
@@ -480,21 +559,21 @@
       .nav-links { display: none; }
       .nav-socials { display: none; }
       .nav-hamburger { display: flex; }
-      #hero {
-        padding: 100px 20px 0;
-      }
+      #hero { padding: 100px 20px 0; }
       .hero-photo {
         width: calc(100% + 40px);
         margin-left: -20px;
         height: 260px;
       }
       .section-inner { padding: 72px 20px; }
+      .video-featured { grid-template-columns: 1fr; }
       .video-grid { grid-template-columns: 1fr; max-width: 340px; }
       .work-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .work-note { text-align: left; max-width: 100%; }
       footer { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
       .footer-links a { margin-left: 12px; }
       .footer-links a:first-child { margin-left: 0; }
+      .contact-brief { min-width: 0; width: 100%; }
     }
   </style>
 </head>
@@ -531,15 +610,17 @@
     <!-- HERO -->
     <section id="hero">
       <div class="hero-inner">
-        <p class="hero-label">UGC Creator &mdash; Charlotte, NC</p>
+        <p class="hero-label">UGC Creator / Charlotte, NC</p>
         <h1>42. Antisocial.<br /><em>Your best ad.</em></h1>
         <p class="hero-sub">I make UGC video ads for brands that sell to people with jobs, mortgages, and no patience for hype.</p>
         <p class="hero-differentiator">
           Most creators are 22 and over-the-top enthusiastic. I'm 42, I've run businesses for over a decade, and I genuinely don't care about going viral.<br>
           <strong>That's exactly why brands targeting real adults hire me.</strong>
         </p>
-        <a href="#contact" class="hero-cta">Work with me</a>
-        <a href="#work" class="hero-cta-secondary">See the work</a>
+        <div class="hero-actions">
+          <a href="#contact" class="hero-cta">Work with me</a>
+          <a href="#work" class="hero-cta-secondary">See the work</a>
+        </div>
       </div>
       <div class="hero-photo">
         <img src="hero-adam.png" alt="Adam Duke, UGC creator" />
@@ -552,11 +633,11 @@
     <section id="work">
       <div class="section-inner">
         <div class="work-header">
-          <h2>Spec &amp; brand videos.</h2>
-          <p class="work-note">All videos produced independently. No scripts from brands, no direction, no second takes coached by an agency.</p>
+          <h2>Portfolio.</h2>
         </div>
 
-        <div class="video-grid">
+        <!-- Featured: first 2 at square crop for visual hierarchy -->
+        <div class="video-featured">
 
           <div class="video-card">
             <div class="video-wrap">
@@ -570,7 +651,7 @@
             <div class="video-meta">
               <p class="video-brand">Leilo</p>
               <p class="video-title">Kava Beverage</p>
-              <p class="video-type">B-roll &mdash; music + captions</p>
+              <p class="video-type">B-roll &mdash; lifestyle / vibe</p>
             </div>
           </div>
 
@@ -590,6 +671,11 @@
             </div>
           </div>
 
+        </div>
+
+        <!-- Rest of portfolio in standard 4-col grid -->
+        <div class="video-grid">
+
           <div class="video-card">
             <div class="video-wrap">
               <video src="videos/parallel-1997.mp4" poster="videos/poster-parallel-1997.jpg" preload="none" loading="lazy" playsinline></video>
@@ -602,7 +688,7 @@
             <div class="video-meta">
               <p class="video-brand">Parallel 1997</p>
               <p class="video-title">Men's Fragrance Oil</p>
-              <p class="video-type">Talking head &mdash; men's grooming</p>
+              <p class="video-type">Talking head &mdash; identity angle</p>
             </div>
           </div>
 
@@ -618,7 +704,7 @@
             <div class="video-meta">
               <p class="video-brand">Zeus Beard</p>
               <p class="video-title">Men's Grooming</p>
-              <p class="video-type">Talking head &mdash; brand series</p>
+              <p class="video-type">Talking head &mdash; routine hook</p>
             </div>
           </div>
 
@@ -634,7 +720,7 @@
             <div class="video-meta">
               <p class="video-brand">Zeus Beard</p>
               <p class="video-title">Men's Grooming</p>
-              <p class="video-type">Talking head &mdash; brand series</p>
+              <p class="video-type">Talking head &mdash; credibility angle</p>
             </div>
           </div>
 
@@ -650,7 +736,7 @@
             <div class="video-meta">
               <p class="video-brand">Awaken Recovery</p>
               <p class="video-title">Addiction Recovery App</p>
-              <p class="video-type">B-roll &mdash; text overlay + music</p>
+              <p class="video-type">B-roll &mdash; emotional narrative</p>
             </div>
           </div>
 
@@ -666,7 +752,7 @@
             <div class="video-meta">
               <p class="video-brand">Kaged Muscle</p>
               <p class="video-title">Pre-Workout</p>
-              <p class="video-type">Talking head &mdash; fitness</p>
+              <p class="video-type">Talking head &mdash; real-user angle</p>
             </div>
           </div>
 
@@ -698,7 +784,7 @@
             <div class="video-meta">
               <p class="video-brand">Remimb</p>
               <p class="video-title">Smart Keyring</p>
-              <p class="video-type">Talking head &mdash; tech gadget</p>
+              <p class="video-type">Talking head &mdash; problem/solution</p>
             </div>
           </div>
 
@@ -730,7 +816,7 @@
             <div class="video-meta">
               <p class="video-brand">JetBack</p>
               <p class="video-title">Flight Price Savings App</p>
-              <p class="video-type">Talking head &mdash; travel/app</p>
+              <p class="video-type">Talking head &mdash; value reveal</p>
             </div>
           </div>
 
@@ -746,7 +832,7 @@
             <div class="video-meta">
               <p class="video-brand">Awaken Recovery</p>
               <p class="video-title">Addiction Recovery App</p>
-              <p class="video-type">B-roll &mdash; text overlay + music</p>
+              <p class="video-type">B-roll &mdash; aspirational hook</p>
             </div>
           </div>
 
@@ -762,7 +848,7 @@
             <div class="video-meta">
               <p class="video-brand">Coastal 980</p>
               <p class="video-title">Beard Oil</p>
-              <p class="video-type">Talking head &mdash; men's grooming</p>
+              <p class="video-type">Talking head &mdash; authority angle</p>
             </div>
           </div>
 
@@ -796,6 +882,7 @@
           <p>I'm 42, married, and I own two food businesses in Charlotte. I came to UGC from the opposite direction most people do: not because I wanted followers, but because I needed a smarter income stream that didn't require me to be somewhere every day.</p>
           <p>My background is in running actual businesses for 16 years, not building audiences. I know what a real buying decision looks like. I know what it sounds like when someone's actually convinced, not performing convincement.</p>
           <p>If you're selling <strong>tech, home goods, health products, or anything else to adults who research before they buy</strong>, I'm the guy who sounds like your customer instead of someone who wants to be famous.</p>
+          <p><strong>Production:</strong> iPhone 16 Pro, lav mic, studio and natural light.</p>
         </div>
         <div class="about-stats">
           <div class="stat">
@@ -805,10 +892,6 @@
           <div class="stat">
             <div class="stat-number">16</div>
             <div class="stat-label">Years owning and operating real businesses.</div>
-          </div>
-          <div class="stat">
-            <div class="stat-number">Tech</div>
-            <div class="stat-label">Primary niche. Gadgets, home, health, lifestyle.</div>
           </div>
           <div class="stat">
             <div class="stat-number">5&ndash;7</div>
@@ -824,29 +907,29 @@
     <section id="services">
       <div class="section-inner">
         <div class="services-top">
-          <h2>Straightforward pricing.</h2>
+          <h2>What it costs.</h2>
         </div>
         <div class="services-grid">
           <div class="service-item">
             <p class="service-name">Single Video</p>
-            <p class="service-desc">One polished UGC video. Hook, demo, CTA. Vertical 9:16 format, captioned and raw both delivered.</p>
+            <p class="service-desc">One polished UGC video. Hook, demo, CTA. Vertical 9:16, captioned and clean file both delivered.</p>
             <p class="service-price">$200 <span>/ video</span></p>
           </div>
           <div class="service-item">
             <p class="service-name">3-Pack</p>
-            <p class="service-desc">Three videos, three different hooks and angles. Same product, more creative options for ad testing.</p>
+            <p class="service-desc">Three videos, three hooks and angles. Same product, more options for ad testing.</p>
             <p class="service-price">$500 <span>/ 3 videos</span></p>
           </div>
           <div class="service-item">
             <p class="service-name">Custom</p>
-            <p class="service-desc">Longer campaigns, extended usage rights, multiple products, or recurring work. Let's figure it out.</p>
+            <p class="service-desc">Recurring campaigns, multiple products, or anything outside the standard packages. Reach out and we'll scope it.</p>
             <p class="service-price">Custom <span>/ reach out</span></p>
           </div>
         </div>
         <div class="services-details">
           <div class="services-detail-item">
             <p class="services-detail-label">Deliverables</p>
-            <p class="services-detail-value">Raw file + captioned version. Commercial usage rights included. Revisions included.</p>
+            <p class="services-detail-value">Clean file + captioned version. One revision included.</p>
           </div>
           <div class="services-detail-item">
             <p class="services-detail-label">Turnaround</p>
@@ -861,6 +944,7 @@
             <p class="services-detail-value">Vertical 9:16, TikTok/Reels/Shorts-ready. Under 60 seconds unless specified.</p>
           </div>
         </div>
+        <p style="font-size: 13px; color: var(--muted-dim); margin-top: 32px;">Usage rights, additional hooks, and other add-ons are in the rate card. Reach out and I'll send it over.</p>
       </div>
     </section>
 
@@ -870,8 +954,14 @@
     <section id="contact">
       <div class="section-inner">
         <h2>Let's make something real.</h2>
-        <p class="contact-sub">Send me the brief and tell me what you're selling and who you're selling it to. I'll get back to you within 24 hours.</p>
-        <a href="mailto:adamdukeugc@gmail.com" class="contact-email">adamdukeugc@gmail.com</a>
+        <p class="contact-sub">Send me a brief and I'll get back to you within 24 hours. The more detail you include, the faster we can get started.</p>
+        <ul class="contact-brief">
+          <li>What you're selling and who buys it</li>
+          <li>Platform &mdash; TikTok, Reels, YouTube Shorts</li>
+          <li>How many videos and any hooks or angles you want tested</li>
+          <li>Your timeline</li>
+        </ul>
+        <a href="mailto:adamdukeugc@gmail.com?subject=UGC Brief" class="contact-cta">Send your brief</a>
         <p class="contact-turnaround">Response within 24 hours. Turnaround 5&ndash;7 business days.</p>
       </div>
     </section>
@@ -879,7 +969,7 @@
   </main>
 
   <footer>
-    <span>Adam Duke UGC &copy; 2026 &mdash; Charlotte, NC</span>
+    <span>Adam Duke UGC &copy; 2026 / Charlotte, NC</span>
     <span class="footer-links">
       <a href="https://www.tiktok.com/@adamdukeugc" target="_blank" rel="noopener">TikTok</a>
       <a href="https://www.instagram.com/adamdukeugc" target="_blank" rel="noopener">Instagram</a>
@@ -948,7 +1038,7 @@
       });
     }
 
-    // Video overlay click handler (buttons now)
+    // Video overlay click handler
     document.querySelectorAll('.video-overlay').forEach(function(btn) {
       btn.addEventListener('click', function() {
         playVideo(btn);
