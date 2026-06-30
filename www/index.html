@@ -320,16 +320,7 @@
     }
     .work-note { font-size: 13px; color: var(--muted-dim); max-width: 280px; line-height: 1.6; text-align: right; }
 
-    /* FEATURED VIDEOS — 2 hero cards at square crop for visual weight */
-    .video-featured {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    /* featured cards inherit 9/16 from .video-wrap — larger size is the distinction */
-
-    /* REGULAR VIDEO GRID */
+    /* VIDEO GRID */
     .video-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -545,8 +536,7 @@
     }
     @media (max-width: 900px) {
       #about .section-inner { grid-template-columns: 1fr; gap: 48px; }
-      .video-featured { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: repeat(2, 1fr); }
+.video-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 1200px) and (min-width: 901px) {
       .services-grid { grid-template-columns: 1fr; }
@@ -566,8 +556,7 @@
         height: 260px;
       }
       .section-inner { padding: 72px 20px; }
-      .video-featured { grid-template-columns: 1fr; }
-      .video-grid { grid-template-columns: 1fr; max-width: 340px; }
+.video-grid { grid-template-columns: 1fr; max-width: 340px; }
       .work-header { flex-direction: column; align-items: flex-start; gap: 12px; }
       .work-note { text-align: left; max-width: 100%; }
       footer { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
@@ -636,8 +625,7 @@
           <h2>Portfolio.</h2>
         </div>
 
-        <!-- Featured: first 2 at square crop for visual hierarchy -->
-        <div class="video-featured">
+        <div class="video-grid">
 
           <div class="video-card">
             <div class="video-wrap">
@@ -670,11 +658,6 @@
               <p class="video-type">Talking head &mdash; honest review</p>
             </div>
           </div>
-
-        </div>
-
-        <!-- Rest of portfolio in standard 4-col grid -->
-        <div class="video-grid">
 
           <div class="video-card">
             <div class="video-wrap">
