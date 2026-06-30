@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Poster Frame Generator</title>
+<style>
+  body { font-family: sans-serif; background: #111; color: #eee; padding: 32px; max-width: 700px; margin: 0 auto; }
+  h2 { margin-bottom: 8px; }
+  p.sub { color: #888; margin-bottom: 32px; font-size: 14px; }
+  .card { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .card h3 { margin: 0 0 8px; font-size: 15px; }
+  .card label { display: inline-block; padding: 8px 16px; background: #333; border-radius: 4px; cursor: pointer; font-size: 13px; margin-bottom: 10px; }
+  .card label:hover { background: #444; }
+  input[type=file] { display: none; }
+  .status { font-size: 13px; color: #888; margin-top: 6px; min-height: 20px; }
+  .status.ok { color: #4caf50; }
+  .status.err { color: #f44336; }
+  canvas { display: none; }
+  .preview { max-width: 120px; max-height: 200px; border-radius: 4px; margin-top: 8px; display: none; }
+</style>
+</head>
+<body>
+<h2>Poster Frame Generator</h2>
+<p class="sub">Pick each video file. It captures a frame at 1 second and uploads it as the poster image.</p>
+
+<div class="card" id="card1">
+  <h3>Toplux Magnesium &rarr; poster-toplux-magnesium.jpg</h3>
+  <label for="f1">Choose Toplux Magnesium.mp4</label>
+  <input type="file" id="f1" accept="video/*">
+  <div class="status" id="s1">Waiting...</div>
+  <img class="preview" id="p1">
+</div>
+
+<div class="card" id="card2">
+  <h3>Little Saints &rarr; poster-little-saints.jpg</h3>
+  <label for="f2">Choose Little Saints.mp4</label>
+  <input type="file" id="f2" accept="video/*">
+  <div class="status" id="s2">Waiting...</div>
+  <img class="preview" id="p2">
+</div>
+
+<div class="card" id="card3">
+  <h3>PetLab Co &rarr; poster-petlabco.jpg</h3>
+  <label for="f3">Choose PetLabCo.mp4</label>
+  <input type="file" id="f3" accept="video/*">
+  <div class="status" id="s3">Waiting...</div>
+  <img class="preview" id="p3">
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+const SERVER = 'https://adamdukeugc.com/_save_poster.php';
+
+async function processVideo(file, posterName, statusEl, previewEl) {
+  statusEl.className = 'status';
+  statusEl.textContent = 'Loading video...';
+
+  const url = URL.createObjectURL(file);
+  const video = document.createElement('video');
+  video.src = url;
+  video.muted = true;
+
+  await new Promise((res, rej) => {
+    video.addEventListener('error', () => rej(new Error('Video load error: ' + (video.error?.code || '?'))));
+    video.addEventListener('loadedmetadata', () => { video.currentTime = 1.0; });
+    video.addEventListener('seeked', res);
+    setTimeout(() => rej(new Error('Timed out loading video')), 30000);
+  });
+
+  statusEl.textContent = 'Capturing frame...';
+  const canvas = document.getElementById('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  URL.revokeObjectURL(url);
+
+  const b64 = canvas.toDataURL('image/jpeg', 0.82);
+  previewEl.src = b64;
+  previewEl.style.display = 'block';
+
+  statusEl.textContent = 'Uploading to server...';
+  const fd = new FormData();
+  fd.append('name', posterName);
+  fd.append('data', b64);
+  const r = await fetch(SERVER, { method: 'POST', body: fd });
+  const j = await r.json();
+
+  if (j.ok) {
+    statusEl.textContent = 'Done! ' + posterName + ' saved (' + Math.round(j.bytes / 1024) + ' KB)';
+    statusEl.className = 'status ok';
+  } else {
+    throw new Error(j.error || 'Server error');
+  }
+}
+
+function wire(inputId, posterName, statusId, previewId) {
+  document.getElementById(inputId).addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const statusEl = document.getElementById(statusId);
+    const previewEl = document.getElementById(previewId);
+    try {
+      await processVideo(file, posterName, statusEl, previewEl);
+    } catch (err) {
+      statusEl.textContent = 'Error: ' + err.message;
+      statusEl.className = 'status err';
+    }
+  });
+}
+
+wire('f1', 'poster-toplux-magnesium.jpg', 's1', 'p1');
+wire('f2', 'poster-little-saints.jpg',    's2', 'p2');
+wire('f3', 'poster-petlabco.jpg',         's3', 'p3');
+</script>
+</body>
+</html>
